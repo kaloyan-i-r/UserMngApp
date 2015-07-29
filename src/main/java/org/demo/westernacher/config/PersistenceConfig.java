@@ -17,8 +17,8 @@ import java.util.Properties;
 
 @Configuration
 @EnableTransactionManagement
-//@ComponentScan(basePackages = "org.demo.westernacher.model")
-//@EnableJpaRepositories(basePackages = "org.demo.westernacher.model.repos")
+//@ComponentScan(basePackages = "org.demo.userapp.model")
+//@EnableJpaRepositories(basePackages = "org.demo.userapp.model.repos")
 public class PersistenceConfig {
 
 	@Bean
@@ -26,7 +26,7 @@ public class PersistenceConfig {
 		LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
 		// em.setBeanName("dsDesignPU");
 		em.setDataSource(dataSource());
-		em.setPackagesToScan(new String[] { "org.demo.westernacher.model.entities" });
+		em.setPackagesToScan(new String[] { "org.demo.userapp.model.entities" });
 
 		JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
 		em.setJpaVendorAdapter(vendorAdapter);
@@ -39,7 +39,7 @@ public class PersistenceConfig {
 	public DataSource dataSource() {
 		return new EmbeddedDatabaseBuilder()
 				.setType(EmbeddedDatabaseType.HSQL)
-				.setName("westernacherTestDB")
+				.setName("userappTestDB")
 //				.addScript("classpath:schema.sql")
 				//.addScript("classpath:demo-data.sql")
 				.build();
@@ -66,7 +66,6 @@ public class PersistenceConfig {
 		properties.setProperty("hibernate.connection.characterEncoding", "utf8");
 		properties.setProperty("hibernate.connection.charSet", "utf8");
 		properties.setProperty("hibernate.dialect", "org.hibernate.dialect.HSQLDialect");
-//		properties.setProperty("hibernate.default_schema","westernacherTestDB");
 		properties.setProperty("hibernate.hbm2ddl.import_files","demo-data.sql");
 		return properties;
 	}

@@ -1,7 +1,7 @@
-package org.demo.westernacher.services;
+package org.demo.userapp.services;
 
-import org.demo.westernacher.model.entities.User;
-import org.demo.westernacher.model.repos.UserRepository;
+import org.demo.userapp.model.entities.User;
+import org.demo.userapp.model.repos.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

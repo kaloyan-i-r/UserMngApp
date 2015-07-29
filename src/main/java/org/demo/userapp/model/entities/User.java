@@ -1,4 +1,4 @@
-package org.demo.westernacher.model.entities;
+package org.demo.userapp.model.entities;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -14,7 +14,7 @@ public class User {
     private long id;
 
     @Column(length = 50, nullable = false)
-    private String username;
+    private String password;
 
     @Column(length = 50, nullable = false)
     private String firstname;
@@ -40,12 +40,12 @@ public class User {
         this.id = id;
     }
 
-    public String getUsername() {
-        return username;
+    public String getPassword() {
+        return password;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getFirstname() {

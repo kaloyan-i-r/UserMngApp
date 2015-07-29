@@ -1,4 +1,4 @@
-package org.demo.westernacher;
+package org.demo.userapp;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

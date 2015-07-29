@@ -1,6 +1,6 @@
-package org.demo.westernacher.model.repos;
+package org.demo.userapp.model.repos;
 
-import org.demo.westernacher.model.entities.User;
+import org.demo.userapp.model.entities.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**

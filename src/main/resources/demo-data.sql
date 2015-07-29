@@ -1,3 +1,3 @@
 -- INSERT INTO User (id, dateofbirth, email, firstname, lastname, username) VALUES (1,DATE '2000-12-22','test','test','test','test');
 -- noinspection SqlResolve
-INSERT INTO User (username,firstname,lastname,email,dateofbirth) VALUES ('admin','Admin','User','admin@demo.westernacher.com',DATE '2000-12-22'),('jholden','James','Holder','admin@demo.westernacher.com',DATE '2000-12-21'),('akamal','Alex','Kamal','admin@demo.westernacher.com',DATE '2000-12-11'),('nnagato','Naomi','Nagato','admin@demo.westernacher.com',DATE '2000-12-01');
+INSERT INTO User (password,firstname,lastname,email,dateofbirth) VALUES ('admin','Admin','User','admin@demo.userapp.com',DATE '2000-12-22'),('jholden','James','Holder','jholden@demo.userapp.com',DATE '2000-12-21'),('akamal','Alex','Kamal','admin@demo.userapp.com',DATE '2000-12-11'),('nnagato','Naomi','Nagato','admin@demo.userapp.com',DATE '2000-12-01');

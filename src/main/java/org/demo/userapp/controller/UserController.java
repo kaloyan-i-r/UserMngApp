@@ -1,7 +1,7 @@
-package org.demo.westernacher.controller;
+package org.demo.userapp.controller;
 
-import org.demo.westernacher.model.entities.User;
-import org.demo.westernacher.services.UserService;
+import org.demo.userapp.model.entities.User;
+import org.demo.userapp.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

@@ -1,9 +1,7 @@
 package org.demo.westernacher.config;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 import org.springframework.orm.jpa.JpaTransactionManager;
@@ -19,8 +17,8 @@ import java.util.Properties;
 
 @Configuration
 @EnableTransactionManagement
-@ComponentScan(basePackages = "org.demo.westernacher.model")
-@EnableJpaRepositories(basePackages = "org.demo.westernacher.model.repos")
+//@ComponentScan(basePackages = "org.demo.westernacher.model")
+//@EnableJpaRepositories(basePackages = "org.demo.westernacher.model.repos")
 public class PersistenceConfig {
 
 	@Bean
@@ -41,8 +39,9 @@ public class PersistenceConfig {
 	public DataSource dataSource() {
 		return new EmbeddedDatabaseBuilder()
 				.setType(EmbeddedDatabaseType.HSQL)
+				.setName("westernacherTestDB")
 //				.addScript("classpath:schema.sql")
-//				.addScript("classpath:demo-data.sql")
+				//.addScript("classpath:demo-data.sql")
 				.build();
 	}
 
@@ -67,6 +66,8 @@ public class PersistenceConfig {
 		properties.setProperty("hibernate.connection.characterEncoding", "utf8");
 		properties.setProperty("hibernate.connection.charSet", "utf8");
 		properties.setProperty("hibernate.dialect", "org.hibernate.dialect.HSQLDialect");
+//		properties.setProperty("hibernate.default_schema","westernacherTestDB");
+		properties.setProperty("hibernate.hbm2ddl.import_files","demo-data.sql");
 		return properties;
 	}
 

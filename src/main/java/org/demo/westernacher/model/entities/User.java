@@ -3,6 +3,7 @@ package org.demo.westernacher.model.entities;
 import javax.persistence.*;
 import java.util.Date;
 
+@SuppressWarnings("ALL")
 @Entity
 @Table
 public class User {
@@ -11,6 +12,9 @@ public class User {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column
     private long id;
+
+    @Column(length = 50, nullable = false)
+    private String username;
 
     @Column(length = 50, nullable = false)
     private String firstname;
@@ -34,6 +38,14 @@ public class User {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getFirstname() {

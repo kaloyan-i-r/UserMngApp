@@ -1,0 +1,25 @@
+
+<div class="row dashboard">
+    <form class="form-signin" ng-controller="LoginCtrl" id="LoginForm"
+          ng-submit="login(credentials)">
+
+
+        <h2 class="form-signin-heading">Please sign in</h2>
+        <label for="inputUsername" class="sr-only">Email address</label>
+        <input type="text" id="inputUsername" class="form-control" placeholder="Username" required="" autofocus=""  ng-model="credentials.username">
+        <label for="inputPassword" class="sr-only">Password</label>
+        <input type="password" id="inputPassword" class="form-control" placeholder="Password" required="" autocomplete="on" ng-model="credentials.password">
+        <div class="checkbox">
+            <label>
+                <input type="checkbox" value="remember-me"> Remember me
+            </label>
+        </div>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+
+        <div class="alert alert-danger col-sm-offset-2 col-sm-2" role="alert" ng-show="loginErrorMsg">
+            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+            <span class="sr-only">Error:</span>
+            {{ loginErrorMsg }}
+        </div>
+    </form>
+</div>

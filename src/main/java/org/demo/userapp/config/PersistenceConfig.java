@@ -17,14 +17,12 @@ import java.util.Properties;
 
 @Configuration
 @EnableTransactionManagement
-//@ComponentScan(basePackages = "org.demo.userapp.model")
-//@EnableJpaRepositories(basePackages = "org.demo.userapp.model.repos")
+
 public class PersistenceConfig {
 
 	@Bean
 	public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
 		LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
-		// em.setBeanName("dsDesignPU");
 		em.setDataSource(dataSource());
 		em.setPackagesToScan(new String[] { "org.demo.userapp.model.entities" });
 
@@ -40,8 +38,6 @@ public class PersistenceConfig {
 		return new EmbeddedDatabaseBuilder()
 				.setType(EmbeddedDatabaseType.HSQL)
 				.setName("userappTestDB")
-//				.addScript("classpath:schema.sql")
-				//.addScript("classpath:demo-data.sql")
 				.build();
 	}
 

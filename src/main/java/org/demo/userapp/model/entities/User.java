@@ -1,7 +1,15 @@
 package org.demo.userapp.model.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @SuppressWarnings("ALL")
 @Entity
@@ -10,42 +18,42 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column
-    private long id;
+    private Long id;
 
-    @Column(length = 50, nullable = false)
-    private String password;
-
+    @NotEmpty
     @Column(length = 50, nullable = false)
     private String firstname;
 
+    @NotEmpty
     @Column(length = 50, nullable = false)
     private String lastname;
 
-    @Column(length = 200, nullable = true)
+    @Email
+    @NotEmpty
+    @Column(length = 200, nullable = false,unique = true)
     private String email;
 
     @Column
     private Date dateofbirth;
 
+    @Column(length = 50, nullable = true)
+    @JsonIgnore
+    private String password;
+
+    @Column(length = 50, nullable = true)
+    private String role;
+
+
     User() {
         // for hibernate.
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public String getFirstname() {
@@ -79,4 +87,30 @@ public class User {
     public void setDateofbirth(Date dateofbirth) {
         this.dateofbirth = dateofbirth;
     }
+
+    @JsonIgnore
+    public String getPassword() {
+        return password;
+    }
+
+    @JsonIgnore
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    @JsonIgnore
+    public List<GrantedAuthority> getAuthorities() {
+        List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
+        authorities.add(new SimpleGrantedAuthority(getRole()));
+        return authorities;
+    }
+
 }

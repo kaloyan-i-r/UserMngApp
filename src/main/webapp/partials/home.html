@@ -1,0 +1,142 @@
+<div class="page-header">
+    <h1>User Managment Application</h1>
+</div>
+<div>
+    <div class="panel panel-default ">
+        <div ng-controller="userListCtrl" class="center-block">
+            <div class="input-group well center-block">
+                <nav class="navbar navbar-btn">
+
+                    <div class="pull-right">
+                        <div class="input-group well">
+                            <span class="input-group-addon" id="sizing-addon2">Search:</span> <input
+                                type="text" class="form-control" ng-change="filter()"
+                                aria-describedby="sizing-addon2" ng-model="searchText">
+                        </div>
+                        <button type="button" class="btn btn-default " ng-click="openCreateUser()">Create
+                        </button>
+                        <button type="button" class="btn btn-default " ng-click="openDeleteUser()"
+                                ng-disabled="selectedId === undefined">Delete
+                        </button>
+                    </div>
+                </nav>
+                <div class="panel panel-default">
+                    <!-- Default panel contents -->
+                    <div class="panel-heading">User Accounts</div>
+                    <table class="table table-condensed table-hover table-striped table-bordered table-responsive">
+                        <thead>
+                        <tr>
+                            <th><a href="#" ng-click="sortType = 'firstname'; sortReverse = !sortReverse">
+                                Firstname
+                                <span ng-show="sortType == 'firstname' && !sortReverse" class="fa fa-caret-down"></span>
+                                <span ng-show="sortType == 'firstname' && sortReverse" class="fa fa-caret-up"></span>
+                            </a></th>
+                            <th><a href="#" ng-click="sortType = 'lastname'; sortReverse = !sortReverse">
+                                Lastname
+                                <span ng-show="sortType == 'lastname' && !sortReverse" class="fa fa-caret-down"></span>
+                                <span ng-show="sortType == 'lastname' && sortReverse" class="fa fa-caret-up"></span>
+                            </a></th>
+                            <th><a href="#" ng-click="sortType = 'email'; sortReverse = !sortReverse">
+                                Email
+                                <span ng-show="sortType == 'email' && !sortReverse" class="fa fa-caret-down"></span>
+                                <span ng-show="sortType == 'email' && sortReverse" class="fa fa-caret-up"></span>
+                            </a></th>
+                            <th><a href="#" ng-click="sortType = 'dateofbirth'; sortReverse = !sortReverse">
+                                Data of birth
+                                <span ng-show="sortType == 'dateofbirth' && !sortReverse" class="fa fa-caret-down"></span>
+                                <span ng-show="sortType == 'dateofbirth' && sortReverse" class="fa fa-caret-up"></span>
+                            </a></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-dblclick="openUpdateUser(user)"
+                            ng-repeat="user in users | filter:searchText"
+                            ng-click="setSelected(user.id)"
+                            ng-class="{selectedRow: user.id === selectedId}">
+                            <td>{{user.firstname}}</td>
+                            <td>{{user.lastname}}</td>
+                            <td>{{user.email}}</td>
+                            <td>{{user.dateofbirth |date:'yyyy-MM-dd'}}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/ng-template" id="updateModalContent.html">
+    <form id="LoginForm" ng-submit="ok()" ng-enter-key="ok()">
+        <div class="modal-header">
+            <h3 class="modal-title">{{action}} User Profile</h3>
+        </div>
+
+
+        <div class="modal-body">
+
+            <ul class="list-group">
+                <li class="list-group-item">
+                    <div class="input-group col-md-8">
+                        <span class="input-group-addon">Firstname</span>
+                        <input type="text" class="form-control" placeholder="Fill in the firstname here"
+                               aria-describedby="basic-addon1" ng-model="user.firstname" required>
+                    </div>
+                </li>
+                <li class="list-group-item">
+                    <div class="input-group col-md-8">
+                        <span class="input-group-addon">Lastname</span>
+                        <input type="text" class="form-control" placeholder="Fill in the lastname here"
+                               aria-describedby="basic-addon1" ng-model="user.lastname" required/>
+                    </div>
+                </li>
+                <li class="list-group-item">
+                    <div class="input-group col-md-8">
+                        <span class="input-group-addon">Email</span>
+                        <input type="email" class="form-control" placeholder="Fill in a meaningful description"
+                               aria-describedby="basic-addon1" ng-model="user.email" required/>
+                    </div>
+                </li>
+                <li class="list-group-item">
+                    <div class="input-group col-md-4">
+                        <span class="input-group-addon">Date of birth</span>
+                        <input type="date" class="form-control" placeholder="Fill in a meaningful description"
+                               aria-describedby="basic-addon1" ng-model="user.dateofbirth" format-date/>
+                    </div>
+                </li>
+                <div class="alert alert-danger" role="alert" ng-show="errorMsg">
+                    <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                    <span class="sr-only">Error:</span>
+                    {{ errorMsg }}
+                </div>
+            </ul>
+
+
+        </div>
+        <div class="modal-footer">
+
+            <button class="btn btn-primary" type="submit">OK</button>
+            <button class="btn btn-default" type="reset" ng-click="cancel()">Cancel</button>
+
+        </div>
+    </form>
+
+</script>
+
+<script type="text/ng-template" id="deleteModalContent.html">
+    <div class="modal-header">
+        <h3 class="modal-title">Delete selected User</h3>
+    </div>
+    <div class="modal-body">
+        <label>Are you sure you want to delete the selected user ?</label>
+    </div>
+    <div class="alert alert-danger" role="alert" ng-show="errorMsg">
+        <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+        <span class="sr-only">Error:</span>
+        {{ errorMsg }}
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-danger" ng-click="ok()">Yes</button>
+        <button class="btn btn-default" ng-click="cancel()">Cancel</button>
+    </div>
+</script>

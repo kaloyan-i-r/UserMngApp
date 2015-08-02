@@ -3,9 +3,12 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.2.5.RELEASE")
+        classpath 'org.springframework.boot:spring-boot-gradle-plugin:1.2.5.RELEASE'
     }
 
+}
+plugins {
+  id "com.moowork.node" version "0.10"
 }
 
 apply plugin: 'java'
@@ -13,6 +16,13 @@ apply plugin: 'eclipse'
 apply plugin: 'idea'
 apply plugin: 'spring-boot'
 apply plugin: 'war'
+apply plugin: 'com.moowork.node'
+
+node {
+    version = '0.12.2'
+    npmVersion = '2.7.5'
+    download = true
+}
 
 repositories {
     mavenCentral()
@@ -33,3 +43,58 @@ dependencies {
 task wrapper(type: Wrapper) {
     gradleVersion = '2.3'
 }
+
+task npmCacheConfig(type: NpmTask) {
+    description = "Configure the NPM cache"
+    def npmCacheDir = "${gradle.getGradleUserHomeDir()}/caches/npm"
+    outputs.files file(npmCacheDir)
+    args = [ 'config', 'set', 'cache', npmCacheDir ]
+}
+
+task npmPackages(type: NpmTask, dependsOn: npmCacheConfig) {
+    description = "Install Node.js packages"
+    args = [ 'install' ]
+    inputs.files file('package.json')
+    outputs.files file('node_modules')
+}
+
+task bowerInstall(type: NodeTask) {
+    script = file('node_modules/bower/bin/bower')
+    args = ["--config.storage.cache=${gradle.getGradleUserHomeDir()}/caches/bower/cache",
+            "--config.storage.packages=${gradle.getGradleUserHomeDir()}/caches/bower/packages",
+            "--config.storage.registry=${gradle.getGradleUserHomeDir()}/caches/bower/registry",
+            'install']
+    inputs.files file('bower.json')
+    outputs.files file('bower_components')
+    dependsOn npmPackages
+}
+
+task bowerSyncJavascript(type: Sync) {
+    from 'bower_components'
+    into "src/main/webapp/bower_components"
+    include '*/**/angular.min.js'
+    include 'angular-route/**/angular-route.min.js'
+    include 'angular-cookies/**/angular-cookies.min.js'
+    include 'angular-bootstrap/ui-bootstrap-tpls.min.js'
+    include 'angular-ui-notification/**/angular-ui-notification.min.js'
+    include 'angular*/**/*.js'
+    dependsOn bowerInstall
+}
+
+task bowerSyncStylesheets(type: Sync) {
+    from 'bower_components'
+    into "src/main/webapp/bower_components"
+    include 'bootstrap/**/bootstrap.min.css'
+    include 'angular-ui-notification/**/angular-ui-notification.min.css'
+    dependsOn bowerInstall
+}
+
+task bowerPackages() {
+    dependsOn bowerSyncJavascript, bowerSyncStylesheets
+}
+
+processResources.dependsOn bowerPackages
+
+clean.delete << file('src/main/webapp/bower_components')
+clean.delete << file('node_modules')
+clean.delete << file('bower_components')
